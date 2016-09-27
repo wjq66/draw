@@ -137,13 +137,15 @@
             if(isDrawing == true){
                 var x = e.pageX - canvas.offsetLeft;
                 var y = e.pageY - canvas.offsetTop;
-                
                 context.lineTo(x,y);
                 context.stroke();
             }
         }
         function stopDrawing(){
             isDrawing = false;
+        }
+        function clearCanvas(){
+            context.clearRect(0,0,canvas.width,canvas.height);
         }
     </script>
 </body>

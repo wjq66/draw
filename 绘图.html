@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+            -moz-user-select: none;
+            -o-user-select:none;
+            -webkit-user-select:none;
+            user-select:none;
+        }
+        .Toolbar{
+            position: relative;
+            width: 450px;
+            height: 130px;
+            float: left;
+            margin: 0px 10px;
+            border: 1px solid #000;
+        }
+        .Toolbar p{
+            position: absolute;
+            margin: 5px 120px;
+            font-size: 25px;
+        }
+        .Toolbar img{
+            margin: 50px 5px;
+            float: left;
+        }
+        .penSize{
+            float: left;
+            width: 160px;
+            padding:0px 50px;
+            height: 130px;
+            margin-left: 10px;
+            border: 1px solid #000;
+        }
+        .penSize p{
+            font-size: 25px;
+            margin: 0px;
+        }
+        .penSize img{
+            float: left;
+            margin: 30px 10px;
+        }
+        .but{
+            clear: both;
+            margin: auto;
+            margin-left: 50px;
+        }
+        button{
+            width: 100px;
+            height: 30px;
+            margin:3px 30px;
+            float: left;
+        }
+        #draw{
+            margin: 10px;
+            float: left;
+            clear: both;
+            border: 1px solid #000;
+        }
+        .Selected{
+            border: 1px solid #000; 
+        }
+        .savedImageCopy{
+            width: 200px;
+            height: 200px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div>
+       <div class="Toolbar">
+        <p>-pen color-</p>
+        <img src="images/%E7%94%BB%E7%AC%94%E9%BB%91.png" alt="black pen" onclick="changeColor('#000',this)">
+        <img src="images/%E7%94%BB%E7%AC%94%E6%B7%A1%E7%BB%BF.png" alt="blur pen" onclick="changeColor('#ccf86e',this)">
+        <img src="images/%E7%94%BB%E7%AC%94%E7%B4%AB.png" alt="green pen" onclick="changeColor('#cc7ad8',this)">
+        <img src="images/%E7%94%BB%E7%AC%94%E7%BA%A2.png" alt="black pen" onclick="changeColor('#f00',this)">
+        <img src="images/%E7%94%BB%E7%AC%94%E7%BB%BF.png" alt="black pen" onclick="changeColor('#73a30c',this)">
+        <img src="images/%E7%94%BB%E7%AC%94%E8%93%9D.png" alt="black pen" onclick="changeColor('#505cf6',this)">
+        <img src="images/%E7%94%BB%E7%AC%94%E9%BB%84.png" alt="black pen" onclick="changeColor('#f2ee79',this)">
+        </div>
+        <div class="penSize">
+        <p>-pen size-</p>
+        <img alt="5" class="size1" src="images/nn5.png" onclick="changeThickness(5,this)">
+        <img alt="7" class="size2" src="images/nn7.png" onclick="changeThickness(7,this)">
+        <img alt="10" class="size3"src="images/nn10.png" onclick="changeThickness(10,this)">
+        <img alt="5" class="size1" src="images/nn15.png" onclick="changeThickness(15,this)">
+        <img alt="5" class="size1" src="images/nn20.png" onclick="changeThickness(20,this)">
+        </div>
+        <div class="clear">
+             <img id="clearsw" alt="clear" src="images/%E6%A9%A1%E7%9A%AE.png" onclick="clearsomewhere(5,this)">   
+        </div>>
+    </div>
+    <canvas height="500" width="900" id="draw"></canvas>
+    <div class="but">
+        <button type="button" onclick="clearCanvas()">clear canvas</button>
+    </div>
+    <script type="text/javascript">
+        var canvas;
+        var context;
+        window.onload = function(){
+            canvas = document.getElementById("draw");
+            context = canvas.getContext("2d");
+            canvas.onmousedown = startDrawing;
+            canvas.onmouseup = stopDrawing;
+            canvas.onmouseout = stopDrawing;
+            canvas.onmousemove = draw;
+        }
+        
+        var previousColorElement;
+        function changeColor(color,imgElement){
+            context.strokeStyle = color;
+            imgElement.className = "Selected";
+            if(previousColorElement != null)
+                previousColorElement.className = " ";
+            previousColorElement = imgElement;
+        }
+        
+        var previousThicknessElement;
+        function changeThickness(thickness,imgElement){
+            context.lineWidth = thickness;
+            imgElement.className = "Selected";
+            if(previousThicknessElement != null)
+                previousThicknessElement.className = "";
+            previousThicknessElement = imgElement;
+        }
+        var isDrawing = false;
+        function startDrawing(e){
+            isDrawing = true;
+            context.beginPath();
+            context.moveTo(e.pageX - canvas.offsetLeft,e.pageY - canvas.offsetTop);
+        } 
+        function draw(e){
+            if(isDrawing == true){
+                var x = e.pageX - canvas.offsetLeft;
+                var y = e.pageY - canvas.offsetTop;
+                
+                context.lineTo(x,y);
+                context.stroke();
+            }
+        }
+        function stopDrawing(){
+            isDrawing = false;
+        }
+    </script>
+</body>
+</html>
